@@ -24,5 +24,8 @@
     "homepage": "https://github.com/benhurott/shura-js#readme",
     "devDependencies": {
         "jest": "^21.2.1"
+    },
+    "dependencies": {
+        "lodash": "^4.17.4"
     }
 }
