@@ -1,6 +1,6 @@
 const { boolean } = require('../../validators')
 
-test('boolean validation with true result success', () => {
+test('boolean validation with true returns true', () => {
     const value = true
     const template = null
 
@@ -9,7 +9,7 @@ test('boolean validation with true result success', () => {
     expect(isValid).toBeTruthy()
 })
 
-test('boolean validation with false result success', () => {
+test('boolean validation with false returns true', () => {
     const value = false
     const template = null
 
@@ -18,7 +18,7 @@ test('boolean validation with false result success', () => {
     expect(isValid).toBeTruthy()
 })
 
-test('boolean validation with abc result error', () => {
+test('boolean validation with abc returns false', () => {
     const value = 'abc'
     const template = null
 
