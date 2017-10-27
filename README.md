@@ -253,6 +253,7 @@ Validate if value is an array. If you want, you can check types of elements insi
     // you can pass more then one schema, if you do this, if the
     // first schema fails, try the second and so on.
     // if one of the schemas pass the validation, the data will be included on result.
+    // the invalid items will be removed from array
     // (optional, array, default [])
     "innerTypes": [
         {
@@ -263,7 +264,14 @@ Validate if value is an array. If you want, you can check types of elements insi
             "*": "string",
             // ....
         }
-    ]
+    ],
+
+    // when validation fails in extractor, the property will be deleted.
+    // in some cases, you want to preserve property and has some default
+    // value (like empty array). 
+    // use this prop for it.
+    // (optional, any, default undefined)
+    "resolveInvalidAs": undefined
 }
 ```
 
