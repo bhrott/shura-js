@@ -53,3 +53,25 @@ test('white spaces returns true', () => {
 
     expect(isValid).toBeTruthy()
 })
+
+test('empty with "allowEmpty=false" returns false', () => {
+    const value = ''
+    const template = {
+        allowEmpty: false
+    }
+
+    const isValid = string.isValid(template, value)
+
+    expect(isValid).toBeFalsy()
+})
+
+test('white spaces with "allowEmpty=false" returns false', () => {
+    const value = '     '
+    const template = {
+        allowEmpty: false
+    }
+
+    const isValid = string.isValid(template, value)
+
+    expect(isValid).toBeFalsy()
+})

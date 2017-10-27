@@ -22,7 +22,7 @@ You api normaly validate if the `name` is a valid string, the `email` is a valid
 
 Ok, if all of this is valid, pass the data to databse.
 
-Buuuut, if advanced user sends:
+Buuuut, if a matrix hacker attacks your api directly sending:
 ```json
 {
     "name": "Ben-hur Santos Ott",

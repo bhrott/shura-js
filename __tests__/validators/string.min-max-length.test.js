@@ -32,3 +32,14 @@ test('"acb123" with "maxLength=5" returns false', () => {
 
     expect(isValid).toBeFalsy()
 })
+
+test('"xyz" with "maxLength=3" returns true', () => {
+    const value = 'xyz'
+    const template = {
+        maxLength: 3
+    }
+
+    const isValid = string.isValid(template, value)
+
+    expect(isValid).toBeTruthy()
+})
