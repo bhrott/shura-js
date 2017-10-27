@@ -115,9 +115,10 @@ All templates include these properties if you want to use:
 {
     "*": "<any type>",
     
-    // validate if value is not null or undefined
-    // (optional, boolean, default true)
-    "required": true
+    // if set to true and property value is null or undefined
+    // it will raise an error
+    // (optional, boolean, default false)
+    "required": false
 }
 ```
 
