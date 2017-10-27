@@ -1,34 +1,34 @@
 const { object } = require('./extractors')
 
-const model = {
-    name: 'Ben-hur Santos Ott',
-    contacts: {
-        email: 'ben-hur@email.com',
-        phone: '+55 51 99999-9999'
+const value = {
+    name: 'Ben-hur',
+    skills: {
+        nodejs: 5,
+        ios: 7,
+        php: -1
     }
 }
 
-const schema = {
-    name: {
-        '*': 'string',
-        minLength: 5,
-        maxLength: 100
-    },
-    contacts: {
-        '*': 'object',
-        definition: {
-            email: {
-                '*': 'string',
-                regex: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-            },
-            phone: {
-                '*': 'string',
-                required: true
+const template = {
+    '*': 'object',
+    definition: {
+        name: {
+            '*': 'string'
+        },
+        skills: {
+            '*': 'object',
+            definition: {
+                nodejs: {
+                    '*': 'number'
+                },
+                ios: {
+                    '*': 'number'
+                }
             }
         }
     }
 }
 
-const result = object.extract(schema, model)
+const received = object.extract(template, value)
 
-console.log(JSON.stringify(result, null, 4))
+console.log(JSON.stringify(received, null, 4))

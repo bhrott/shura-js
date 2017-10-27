@@ -8,7 +8,14 @@ const {
 const extractorKey = 'object'
 
 const extract = (template, value) => {
-    const templateKeys = Object.keys(template)
+    const idKey = extractorIdentifierKey.get()
+    let matchedTemplate = template
+
+    if (template[idKey] === extractorKey) {
+        matchedTemplate = template.definition
+    }
+
+    const templateKeys = Object.keys(matchedTemplate)
 
     const result = {}
 
@@ -16,15 +23,24 @@ const extract = (template, value) => {
         const key = templateKeys[i]
 
         const valueProp = value[key]
-        const valueTemplate = template[key]
+        const valueTemplate = matchedTemplate[key]
         validateRequiredProperty(valueTemplate, valueProp, key)
 
-        const extractor = getExtractorByType(template[key])
+        if (valueProp === undefined) {
+            continue
+        }
+
+        if (valueProp === null) {
+            result[key] = null
+            continue
+        }
+
+        const extractor = getExtractorByType(matchedTemplate[key])
 
         if (!!extractor) {
             let sanitized = undefined
 
-            if (extractor[extractorIdentifierKey.get()] === extractorKey) {
+            if (extractor[idKey] === extractorKey) {
                 sanitized = extract(valueTemplate.definition, valueProp)
             } else {
                 sanitized = extractor.extract(valueTemplate, valueProp)
