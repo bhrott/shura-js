@@ -12,15 +12,20 @@ const extract = (template, value) => {
         const key = templateKeys[i]
         const extractor = getExtractorByType(template[key])
 
-        if (!!extractor) {
-            if (extractor[extractorIdentifierKey.get()] === extractorKey) {
-            } else {
-                const valueProp = value[key]
-                const sanitized = extractor.extract(template, valueProp)
+        const valueProp = value[key]
+        const valueTemplate = template[key]
 
-                if (sanitized !== undefined) {
-                    result[key] = sanitized
-                }
+        if (!!extractor) {
+            let sanitized = undefined
+
+            if (extractor[extractorIdentifierKey.get()] === extractorKey) {
+                sanitized = extract(valueTemplate.definition, valueProp)
+            } else {
+                sanitized = extractor.extract(valueTemplate, valueProp)
+            }
+
+            if (sanitized !== undefined) {
+                result[key] = sanitized
             }
         }
     }

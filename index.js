@@ -1,18 +1,34 @@
 const { object } = require('./extractors')
 
-const value = {
+const model = {
     name: 'Ben-hur Santos Ott',
-    foo: true
+    contacts: {
+        email: 'ben-hur@email.com'
+        //phone: '+55 51 99999-9999'
+    }
 }
 
-const template = {
+const schema = {
     name: {
         '*': 'string',
         minLength: 5,
         maxLength: 100
+    },
+    contacts: {
+        '*': 'object',
+        definition: {
+            email: {
+                '*': 'string',
+                regex: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            },
+            phone: {
+                '*': 'string',
+                required: false
+            }
+        }
     }
 }
 
-const result = object.extract(template, value)
+const result = object.extract(schema, model)
 
 console.log(result)
