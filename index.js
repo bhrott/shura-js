@@ -1,10 +1,18 @@
-const { string } = require('./validators')
+const { object } = require('./extractors')
 
-const value = 'abc'
-const template = {
-    minLength: 3
+const value = {
+    name: 'Ben-hur Santos Ott',
+    foo: true
 }
 
-const isValid = string.isValid(template, value)
+const template = {
+    name: {
+        '*': 'string',
+        minLength: 5,
+        maxLength: 100
+    }
+}
 
-console.log(isValid)
+const result = object.extract(template, value)
+
+console.log(result)

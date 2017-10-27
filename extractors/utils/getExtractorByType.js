@@ -1,6 +1,8 @@
-const extractors = require('../index')
+const extractorIdentifier = require('./extractorIdentifierKey')
 
 module.exports = template => {
-    const key = (template || {})['*']
-    return template[key] || null
+    const identifier = extractorIdentifier.get()
+    const key = (template || {})[identifier]
+
+    return require('../index')[key]
 }
