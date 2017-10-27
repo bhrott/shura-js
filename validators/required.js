@@ -1,6 +1,12 @@
+const _ = require('lodash')
+
 module.exports = {
     '*': '__required__',
     isValid: (template, value) => {
-        return template.value === true && value !== null && value !== undefined
+        if (template.value === true) {
+            return !_.isNil(value)
+        }
+
+        return true
     }
 }

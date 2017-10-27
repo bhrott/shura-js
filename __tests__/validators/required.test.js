@@ -6,7 +6,7 @@ test('value "abc" and "required=true" returns true', () => {
 
     const isValid = required.isValid(template, value)
 
-    expect(isValid === true)
+    expect(isValid).toBeTruthy()
 })
 
 test('value 0 and "required=true" returns true', () => {
@@ -15,7 +15,7 @@ test('value 0 and "required=true" returns true', () => {
 
     const isValid = required.isValid(template, value)
 
-    expect(isValid === true)
+    expect(isValid).toBeTruthy()
 })
 
 test('value null and "required=true" returns false', () => {
@@ -24,7 +24,7 @@ test('value null and "required=true" returns false', () => {
 
     const isValid = required.isValid(template, value)
 
-    expect(isValid === false)
+    expect(isValid).toBeFalsy()
 })
 
 test('value undefined and "required=true" returns false', () => {
@@ -33,7 +33,7 @@ test('value undefined and "required=true" returns false', () => {
 
     const isValid = required.isValid(template, value)
 
-    expect(isValid === false)
+    expect(isValid).toBeFalsy()
 })
 
 test('value null and "required=false" returns true', () => {
@@ -42,7 +42,7 @@ test('value null and "required=false" returns true', () => {
 
     const isValid = required.isValid(template, value)
 
-    expect(isValid === true)
+    expect(isValid).toBeTruthy()
 })
 
 test('value undefined and "required=false" returns true', () => {
@@ -51,5 +51,5 @@ test('value undefined and "required=false" returns true', () => {
 
     const isValid = required.isValid(template, value)
 
-    expect(isValid === true)
+    expect(isValid).toBeTruthy()
 })

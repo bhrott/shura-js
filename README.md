@@ -135,7 +135,11 @@ Validate if value is a string
 
     // validate if regex matches the value
     // (optional, regex, default null)
-    "regex": /[0-9]/
+    "regex": /[0-9]/,
+
+    // consideting valid if string has length 0 or contains only white spaces.
+    // (optional, boolean, default true)
+    "allowEmpty": true
 }
 ```
 

@@ -25,6 +25,14 @@ module.exports = {
             return false
         }
 
+        if (_.isBoolean(template.allowEmpty) && !template.allowEmpty) {
+            const flushedValue = value.replace(/\s/g, '')
+
+            if (flushedValue.length == 0) {
+                return false
+            }
+        }
+
         return true
     }
 }

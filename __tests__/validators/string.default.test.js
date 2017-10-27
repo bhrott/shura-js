@@ -6,7 +6,7 @@ test('"abc" returns true', () => {
 
     const isValid = string.isValid(template, value)
 
-    expect(isValid === true)
+    expect(isValid).toBeTruthy()
 })
 
 test('123 returns false', () => {
@@ -15,7 +15,7 @@ test('123 returns false', () => {
 
     const isValid = string.isValid(template, value)
 
-    expect(isValid === false)
+    expect(isValid).toBeFalsy()
 })
 
 test('null returns false', () => {
@@ -24,7 +24,7 @@ test('null returns false', () => {
 
     const isValid = string.isValid(template, value)
 
-    expect(isValid === false)
+    expect(isValid).toBeFalsy()
 })
 
 test('undefined returns false', () => {
@@ -33,5 +33,23 @@ test('undefined returns false', () => {
 
     const isValid = string.isValid(template, value)
 
-    expect(isValid === false)
+    expect(isValid).toBeFalsy()
+})
+
+test('empty returns true', () => {
+    const value = ''
+    const template = {}
+
+    const isValid = string.isValid(template, value)
+
+    expect(isValid).toBeTruthy()
+})
+
+test('white spaces returns true', () => {
+    const value = '     '
+    const template = {}
+
+    const isValid = string.isValid(template, value)
+
+    expect(isValid).toBeTruthy()
 })

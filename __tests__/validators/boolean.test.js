@@ -6,7 +6,7 @@ test('boolean validation with true result success', () => {
 
     const isValid = boolean.isValid(template, value)
 
-    expect(isValid === true)
+    expect(isValid).toBeTruthy()
 })
 
 test('boolean validation with false result success', () => {
@@ -15,7 +15,7 @@ test('boolean validation with false result success', () => {
 
     const isValid = boolean.isValid(template, value)
 
-    expect(isValid === true)
+    expect(isValid).toBeTruthy()
 })
 
 test('boolean validation with abc result error', () => {
@@ -24,5 +24,5 @@ test('boolean validation with abc result error', () => {
 
     const isValid = boolean.isValid(template, value)
 
-    expect(isValid === false)
+    expect(isValid).toBeFalsy()
 })
