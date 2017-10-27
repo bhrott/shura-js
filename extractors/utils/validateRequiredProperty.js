@@ -1,7 +1,7 @@
 const _ = require('lodash')
 const extractorIdentifierKey = require('./extractorIdentifierKey')
 
-module.exports = (propertyName, template, value) => {
+module.exports = (template, value, propertyName = '???') => {
     if (
         template[extractorIdentifierKey.get()] !== undefined &&
         template.required &&

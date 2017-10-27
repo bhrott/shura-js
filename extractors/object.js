@@ -1,5 +1,9 @@
 const _ = require('lodash')
-const { getExtractorByType, extractorIdentifierKey } = require('./utils')
+const {
+    getExtractorByType,
+    extractorIdentifierKey,
+    validateRequiredProperty
+} = require('./utils')
 
 const extractorKey = 'object'
 
@@ -10,10 +14,12 @@ const extract = (template, value) => {
 
     for (let i = 0; i < templateKeys.length; i++) {
         const key = templateKeys[i]
-        const extractor = getExtractorByType(template[key])
 
         const valueProp = value[key]
         const valueTemplate = template[key]
+        validateRequiredProperty(valueTemplate, valueProp, key)
+
+        const extractor = getExtractorByType(template[key])
 
         if (!!extractor) {
             let sanitized = undefined

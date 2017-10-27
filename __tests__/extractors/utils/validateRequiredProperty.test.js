@@ -3,12 +3,12 @@ const { validateRequiredProperty } = require('../../../extractors/utils')
 test('required prop returns success', () => {
     const expected = undefined
     const received = validateRequiredProperty(
-        'age',
         {
             '*': 'number',
             required: true
         },
-        29
+        29,
+        'age'
     )
 
     expect(expected).toBe(received)
@@ -19,12 +19,12 @@ test('null property with required template results on error', () => {
 
     try {
         validateRequiredProperty(
-            'age',
             {
                 '*': 'number',
                 required: true
             },
-            null
+            null,
+            'age'
         )
 
         throw 'test_fail'
@@ -38,12 +38,12 @@ test('null property with required template results on error', () => {
 test('null property with not required template result success', () => {
     const expected = undefined
     const received = validateRequiredProperty(
-        'age',
         {
             '*': 'number',
             required: false
         },
-        null
+        null,
+        'age'
     )
 
     expect(expected).toBe(received)

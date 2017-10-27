@@ -3,8 +3,8 @@ const { object } = require('./extractors')
 const model = {
     name: 'Ben-hur Santos Ott',
     contacts: {
-        email: 'ben-hur@email.com'
-        //phone: '+55 51 99999-9999'
+        email: 'ben-hur@email.com',
+        phone: '+55 51 99999-9999'
     }
 }
 
@@ -23,7 +23,7 @@ const schema = {
             },
             phone: {
                 '*': 'string',
-                required: false
+                required: true
             }
         }
     }
@@ -31,4 +31,4 @@ const schema = {
 
 const result = object.extract(schema, model)
 
-console.log(result)
+console.log(JSON.stringify(result, null, 4))
