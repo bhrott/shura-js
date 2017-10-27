@@ -1,10 +1,16 @@
-const { string } = require('./validators')
+const _ = require('lodash')
+const { object, array } = require('./extractors')
 
-const value = 'abc'
-const template = {
-    minLength: 3
+module.exports = {
+    extract: (schema, value) => {
+        if (_.isArray(value)) {
+            return array.extract(schema, value)
+        }
+
+        if (_.isObject(value)) {
+            return object.extract(schema, value)
+        }
+
+        throw new Error('invalid_json_value')
+    }
 }
-
-const isValid = string.isValid(template, value)
-
-console.log(isValid)

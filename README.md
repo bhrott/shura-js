@@ -22,7 +22,7 @@ You api normaly validate if the `name` is a valid string, the `email` is a valid
 
 Ok, if all of this is valid, pass the data to databse.
 
-Buuuut, if advanced user sends:
+Buuuut, if a matrix hacker attacks your api directly sending:
 ```json
 {
     "name": "Ben-hur Santos Ott",
@@ -115,9 +115,10 @@ All templates include these properties if you want to use:
 {
     "*": "<any type>",
     
-    // validate if value is not null or undefined
-    // (optional, boolean, default true)
-    "required": true
+    // if set to true and property value is null or undefined
+    // it will raise an error
+    // (optional, boolean, default false)
+    "required": false
 }
 ```
 
@@ -252,6 +253,7 @@ Validate if value is an array. If you want, you can check types of elements insi
     // you can pass more then one schema, if you do this, if the
     // first schema fails, try the second and so on.
     // if one of the schemas pass the validation, the data will be included on result.
+    // the invalid items will be removed from array
     // (optional, array, default [])
     "innerTypes": [
         {
@@ -262,15 +264,22 @@ Validate if value is an array. If you want, you can check types of elements insi
             "*": "string",
             // ....
         }
-    ]
+    ],
+
+    // when validation fails in extractor, the property will be deleted.
+    // in some cases, you want to preserve property and has some default
+    // value (like empty array). 
+    // use this prop for it.
+    // (optional, any, default undefined)
+    "resolveInvalidAs": undefined
 }
 ```
 
-### Enum
+### oneOf
 Validate if value is one of listed values (using `===` for comparison)
 ```js
 {
-    "*": "enum",
+    "*": "oneOf",
 
     // list of items to compare with value
     "items": [10, "test", null]
