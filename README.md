@@ -3,6 +3,8 @@
 # shura-js
 A simple and extensible json schema extractor for NodeJS.
 
+![build status](https://travis-ci.org/benhurott/shura-js.svg?branch=master)
+
 ## Motivation
 When we use a NoSql database such MongoDB or Firebase, we need to prevent user to input some invalid additional data to our database. This lib will help you to preserve the schema of your data.
 
@@ -135,7 +137,11 @@ Validate if value is a string
 
     // validate if regex matches the value
     // (optional, regex, default null)
-    "regex": /[0-9]/
+    "regex": /[0-9]/,
+
+    // consideting valid if string has length 0 or contains only white spaces.
+    // (optional, boolean, default true)
+    "allowEmpty": true
 }
 ```
 
