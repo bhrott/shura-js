@@ -1,4 +1,4 @@
-const { string } = require('../../validators')
+const { string } = require('../../extractors')
 
 test('"abc" with "minLength=4" returns false', () => {
     const value = 'abc'
@@ -6,9 +6,9 @@ test('"abc" with "minLength=4" returns false', () => {
         minLength: 4
     }
 
-    const isValid = string.isValid(template, value)
+    const result = string.extract(template, value)
 
-    expect(isValid).toBeFalsy()
+    expect(result).toBeUndefined()
 })
 
 test('"aa" with "minLength=2" returns true', () => {
@@ -17,9 +17,9 @@ test('"aa" with "minLength=2" returns true', () => {
         minLength: 2
     }
 
-    const isValid = string.isValid(template, value)
+    const result = string.extract(template, value)
 
-    expect(isValid).toBeTruthy()
+    expect(result).toBe(result)
 })
 
 test('"acb123" with "maxLength=5" returns false', () => {
@@ -28,9 +28,9 @@ test('"acb123" with "maxLength=5" returns false', () => {
         maxLength: 5
     }
 
-    const isValid = string.isValid(template, value)
+    const result = string.extract(template, value)
 
-    expect(isValid).toBeFalsy()
+    expect(result).toBeUndefined()
 })
 
 test('"xyz" with "maxLength=3" returns true', () => {
@@ -39,7 +39,7 @@ test('"xyz" with "maxLength=3" returns true', () => {
         maxLength: 3
     }
 
-    const isValid = string.isValid(template, value)
+    const result = string.extract(template, value)
 
-    expect(isValid).toBeTruthy()
+    expect(result).toBe(result)
 })

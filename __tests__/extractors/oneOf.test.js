@@ -1,4 +1,4 @@
-const { oneOf } = require('../../validators')
+const { oneOf } = require('../../extractors')
 
 test('item in list returns true', () => {
     const value = 'abc'
@@ -6,9 +6,9 @@ test('item in list returns true', () => {
         items: ['xyz', 'abc']
     }
 
-    const isValid = oneOf.isValid(template, value)
+    const result = oneOf.extract(template, value)
 
-    expect(isValid).toBeTruthy()
+    expect(result).toBe(value)
 })
 
 test('item not in list returns false', () => {
@@ -17,9 +17,9 @@ test('item not in list returns false', () => {
         items: ['xyz', 'abcd']
     }
 
-    const isValid = oneOf.isValid(template, value)
+    const result = oneOf.extract(template, value)
 
-    expect(isValid).toBeFalsy()
+    expect(result).toBeUndefined()
 })
 
 test('123 with "123" in list returns false', () => {
@@ -28,7 +28,7 @@ test('123 with "123" in list returns false', () => {
         items: ['123', 1234]
     }
 
-    const isValid = oneOf.isValid(template, value)
+    const result = oneOf.extract(template, value)
 
-    expect(isValid).toBeFalsy()
+    expect(result).toBeUndefined()
 })

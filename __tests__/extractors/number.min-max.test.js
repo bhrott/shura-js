@@ -1,4 +1,4 @@
-const { number } = require('../../validators')
+const { number } = require('../../extractors')
 
 test('123 with "max=100" returns false', () => {
     const value = 123
@@ -6,9 +6,9 @@ test('123 with "max=100" returns false', () => {
         max: 100
     }
 
-    const isValid = number.isValid(template, value)
+    const result = number.extract(template, value)
 
-    expect(isValid).toBeFalsy()
+    expect(result).toBeUndefined()
 })
 
 test('123 with "min=124" returns false', () => {
@@ -17,9 +17,9 @@ test('123 with "min=124" returns false', () => {
         min: 124
     }
 
-    const isValid = number.isValid(template, value)
+    const result = number.extract(template, value)
 
-    expect(isValid).toBeFalsy()
+    expect(result).toBeUndefined()
 })
 
 test('123 with "min=123" returns true', () => {
@@ -28,9 +28,9 @@ test('123 with "min=123" returns true', () => {
         min: 100
     }
 
-    const isValid = number.isValid(template, value)
+    const result = number.extract(template, value)
 
-    expect(isValid).toBeTruthy()
+    expect(result).toBe(value)
 })
 
 test('123 with "max=123" returns true', () => {
@@ -39,9 +39,9 @@ test('123 with "max=123" returns true', () => {
         max: 123
     }
 
-    const isValid = number.isValid(template, value)
+    const result = number.extract(template, value)
 
-    expect(isValid).toBeTruthy()
+    expect(result).toBe(123)
 })
 
 test('-1 with "min=0" returns false', () => {
@@ -50,7 +50,7 @@ test('-1 with "min=0" returns false', () => {
         min: 0
     }
 
-    const isValid = number.isValid(template, value)
+    const result = number.extract(template, value)
 
-    expect(isValid).toBeFalsy()
+    expect(result).toBeUndefined()
 })

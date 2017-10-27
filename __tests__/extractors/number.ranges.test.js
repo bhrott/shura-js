@@ -1,4 +1,4 @@
-const { number } = require('../../validators')
+const { number } = require('../../extractors')
 
 test('123 with "allowPositive=false" returns false', () => {
     const value = 123
@@ -6,9 +6,9 @@ test('123 with "allowPositive=false" returns false', () => {
         allowPositive: false
     }
 
-    const isValid = number.isValid(template, value)
+    const result = number.extract(template, value)
 
-    expect(isValid).toBeFalsy()
+    expect(result).toBeUndefined()
 })
 
 test('-123 with "allowNegative=false" returns false', () => {
@@ -17,9 +17,9 @@ test('-123 with "allowNegative=false" returns false', () => {
         allowNegative: false
     }
 
-    const isValid = number.isValid(template, value)
+    const result = number.extract(template, value)
 
-    expect(isValid).toBeFalsy()
+    expect(result).toBeUndefined()
 })
 
 test('0 with "allowPositive=false" returns false', () => {
@@ -28,7 +28,7 @@ test('0 with "allowPositive=false" returns false', () => {
         allowPositive: false
     }
 
-    const isValid = number.isValid(template, value)
+    const result = number.extract(template, value)
 
-    expect(isValid).toBeFalsy()
+    expect(result).toBeUndefined()
 })
