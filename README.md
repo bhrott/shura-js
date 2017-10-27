@@ -287,12 +287,61 @@ Validate if value is one of listed values (using `===` for comparison)
 }
 ```
 
+## Extending ShuraJS
+If you want to create your custom extractors, just use the `mixin` function.
+
+So, if want to create a default `age validation schema` that validate number < 18 or > 99:
+```js
+const shurajs = require('shurajs')
+
+const schema = {
+    age: {
+        '*': 'age'
+    }
+}
+
+const model = {
+    age: 42
+}
+
+const sanitized = shurajs.extract(schema, model)
+```
+
+You will create some like this:
+```js
+const shurajs = require('shurajs')
+
+shurajs.mixin('age', (schema, value) => {
+    // in this case, the schema will have this obj:
+    // {
+    //     '*': 'age'
+    // }
+
+    // the value has: 42
+
+    if (value < 18 || value > 99) {
+        // by default, if you return `undefined`,
+        // shurajs will consider it a invalid result
+        // and will not include in the object node.
+        return undefined
+    }
+
+    // after all validations, return a value that be include
+    // in the result node
+    return value
+})
+
+```
+
 
 ## Thanks to
 Icon: <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 
 
 ## Changelog
+
+### 0.8.0
+* Adding `mixins`.
 
 ### 0.7.1
 * First version =D

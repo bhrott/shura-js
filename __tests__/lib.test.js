@@ -1,4 +1,4 @@
-const lib = require('../index')
+const shurajs = require('../index')
 
 test('valid object success', () => {
     const expected = {
@@ -38,7 +38,7 @@ test('valid object success', () => {
         }
     }
 
-    const received = lib.extract(schema, model)
+    const received = shurajs.extract(schema, model)
 
     expect(JSON.stringify(received)).toBe(JSON.stringify(expected))
 })
@@ -52,7 +52,7 @@ test('valid array success', () => {
         '*': 'array'
     }
 
-    const received = lib.extract(schema, model)
+    const received = shurajs.extract(schema, model)
 
     expect(JSON.stringify(received)).toBe(JSON.stringify(expected))
 })
@@ -65,7 +65,7 @@ test('invalid json object results on error', () => {
             '*': 'string'
         }
 
-        const received = lib.extract(schema, model)
+        const received = shurajs.extract(schema, model)
 
         throw 'test_fail'
     } catch (error) {

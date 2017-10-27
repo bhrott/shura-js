@@ -1,5 +1,6 @@
 const _ = require('lodash')
 const { object, array } = require('./extractors')
+const { customExtractors } = require('./extractors/utils')
 
 module.exports = {
     extract: (schema, value) => {
@@ -12,5 +13,8 @@ module.exports = {
         }
 
         throw new Error('invalid_json_value')
+    },
+    mixin: (name, extractor) => {
+        customExtractors.create(name, extractor)
     }
 }
