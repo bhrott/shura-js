@@ -266,11 +266,11 @@ Validate if value is an array. If you want, you can check types of elements insi
 }
 ```
 
-### Enum
+### oneOf
 Validate if value is one of listed values (using `===` for comparison)
 ```js
 {
-    "*": "enum",
+    "*": "oneOf",
 
     // list of items to compare with value
     "items": [10, "test", null]
