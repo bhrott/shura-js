@@ -1,4 +1,5 @@
-**This repository is under development**
+![shurajs](resources/shura-js-logo.png)
+
 
 # shura-js
 A simple and extensible json schema extractor for NodeJS.
@@ -285,3 +286,13 @@ Validate if value is one of listed values (using `===` for comparison)
     "items": [10, "test", null]
 }
 ```
+
+
+## Thanks to
+Icon: <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+
+
+## Changelog
+
+### 0.7.1
+* First version =D
