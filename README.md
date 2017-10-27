@@ -3,6 +3,8 @@
 # shura-js
 A simple and extensible json schema extractor for NodeJS.
 
+![build status](https://travis-ci.org/benhurott/shura-js.svg?branch=master)
+
 ## Motivation
 When we use a NoSql database such MongoDB or Firebase, we need to prevent user to input some invalid additional data to our database. This lib will help you to preserve the schema of your data.
 
