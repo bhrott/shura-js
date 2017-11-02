@@ -7,6 +7,14 @@ const {
 
 const extractorKey = 'object'
 
+const applyMiddleware = (schema, value) => {
+    if (_.isFunction(schema.middleware)) {
+        return schema.middleware(schema, value)
+    }
+
+    return value
+}
+
 const extract = (template, value) => {
     const idKey = extractorIdentifierKey.get()
     let matchedTemplate = template
@@ -46,6 +54,8 @@ const extract = (template, value) => {
                 sanitized = extractor.extract(valueTemplate, valueProp)
             }
 
+            sanitized = applyMiddleware(valueTemplate, sanitized)
+
             if (sanitized !== undefined) {
                 result[key] = sanitized
             } else if (valueTemplate.defaultValue !== undefined) {
@@ -60,6 +70,9 @@ const extract = (template, value) => {
 module.exports = {
     '*': extractorKey,
     extract: (template, value) => {
-        return extract(template, value)
+        let sanitized = extract(template, value)
+        sanitized = applyMiddleware(template, sanitized)
+
+        return sanitized
     }
 }

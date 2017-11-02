@@ -124,7 +124,21 @@ All templates include these properties if you want to use:
     // by default, shurajs ignore the node if value is undefined.
     // if you want a default value for invalid node, just set this
     // property with your custom value
-    "defaultValue": undefined
+    // (optional, any type, default undefined)
+    "defaultValue": undefined,
+
+    // after shurajs parses the value and apply all the rules,
+    // it will resolve the value and set it on the result node.
+    // if you want to validate value manualy after shura (in case
+    // you have some complex validation, for example) you can add
+    // a middleware.
+    // the value you returned on middleware will be the result of the
+    // node.
+    // (optional, schema:value func, default return current value)
+    "middleware": (schema, value) => {
+        //...
+        return value
+    }
 }
 ```
 
@@ -344,6 +358,9 @@ Icon: <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepi
 
 
 ## Changelog
+
+## 0.10.0
+* Adding `middleware`.
 
 ### 0.9.0
 * Adding `defaultValue`.
