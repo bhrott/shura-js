@@ -119,7 +119,12 @@ All templates include these properties if you want to use:
     // if set to true and property value is null or undefined
     // it will raise an error
     // (optional, boolean, default false)
-    "required": false
+    "required": false,
+
+    // by default, shurajs ignore the node if value is undefined.
+    // if you want a default value for invalid node, just set this
+    // property with your custom value
+    "defaultValue": undefined
 }
 ```
 
@@ -339,6 +344,9 @@ Icon: <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepi
 
 
 ## Changelog
+
+### 0.9.0
+* Adding `defaultValue`.
 
 ### 0.8.0
 * Adding `mixins`.

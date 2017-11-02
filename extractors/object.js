@@ -48,6 +48,8 @@ const extract = (template, value) => {
 
             if (sanitized !== undefined) {
                 result[key] = sanitized
+            } else if (valueTemplate.defaultValue !== undefined) {
+                result[key] = valueTemplate.defaultValue
             }
         }
     }
