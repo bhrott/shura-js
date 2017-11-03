@@ -2,7 +2,7 @@ const { boolean } = require('../../extractors')
 
 test('boolean validation with true returns true', () => {
     const value = true
-    const template = null
+    const template = {}
 
     const result = boolean.extract(template, value)
 
@@ -11,7 +11,7 @@ test('boolean validation with true returns true', () => {
 
 test('boolean validation with false returns true', () => {
     const value = false
-    const template = null
+    const template = {}
 
     const result = boolean.extract(template, value)
 
@@ -20,7 +20,7 @@ test('boolean validation with false returns true', () => {
 
 test('boolean validation with "abc" returns false', () => {
     const value = 'true'
-    const template = null
+    const template = {}
 
     const result = boolean.extract(template, value)
 

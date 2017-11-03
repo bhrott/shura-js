@@ -7,6 +7,9 @@ module.exports = {
 
         if (value === true || value === false) {
             return value
+        } else {
+            schema.onValidationFailed(schema, value, 'not_a_boolean')
+            return undefined
         }
     }
 }

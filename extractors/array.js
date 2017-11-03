@@ -10,14 +10,17 @@ module.exports = {
         const defaultValue = schema.resolveInvalidAs
 
         if (!_.isArray(value)) {
+            schema.onValidationFailed(schema, value, 'not_a_array')
             return defaultValue
         }
 
         if (_.isNumber(schema.minLength) && value.length < schema.minLength) {
+            schema.onValidationFailed(schema, value, 'min_length')
             return defaultValue
         }
 
         if (_.isNumber(schema.maxLength) && value.length > schema.maxLength) {
+            schema.onValidationFailed(schema, value, 'max_length')
             return defaultValue
         }
 
@@ -37,6 +40,12 @@ module.exports = {
 
                         if (sanitized !== undefined) {
                             result.push(sanitized)
+                        } else {
+                            schema.onValidationFailed(
+                                innerType,
+                                itemInResult,
+                                'inner_type_validation_failed'
+                            )
                         }
                     }
                 }

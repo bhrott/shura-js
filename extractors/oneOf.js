@@ -13,5 +13,7 @@ module.exports = {
                 return value
             }
         }
+
+        schema.onValidationFailed(schema, value, 'invalid_item')
     }
 }
