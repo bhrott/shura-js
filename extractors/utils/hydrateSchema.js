@@ -8,4 +8,10 @@ module.exports = schema => {
     if (_.isNil(schema.required)) {
         schema.required = false
     }
+
+    schema.applyGlobalValidations = (schema, value) => {
+        if (schema.required && _.isNil(value)) {
+            schema.onValidationFailed(schema, value, 'required')
+        }
+    }
 }

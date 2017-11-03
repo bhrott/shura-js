@@ -2,7 +2,6 @@ const _ = require('lodash')
 const {
     getExtractorByType,
     extractorIdentifierKey,
-    validateRequiredProperty,
     hydrateSchema
 } = require('./utils')
 
@@ -33,7 +32,9 @@ const extract = (schema, value) => {
 
         const valueProp = value[key]
         let valueSchema = matchedSchema[key]
-        validateRequiredProperty(valueSchema, valueProp, key)
+
+        hydrateSchema(valueSchema)
+        valueSchema.applyGlobalValidations(valueSchema, valueProp)
 
         if (valueProp === undefined) {
             continue
@@ -48,8 +49,6 @@ const extract = (schema, value) => {
 
         if (!!extractor) {
             let sanitized = undefined
-
-            hydrateSchema(valueSchema)
 
             if (extractor[idKey] === extractorKey) {
                 sanitized = extract(valueSchema.definition, valueProp)

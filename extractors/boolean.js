@@ -5,6 +5,8 @@ module.exports = {
     extract: (schema, value) => {
         hydrateSchema(schema)
 
+        schema.applyGlobalValidations(schema, value)
+
         if (value === true || value === false) {
             return value
         } else {

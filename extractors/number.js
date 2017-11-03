@@ -6,6 +6,8 @@ module.exports = {
     extract: (schema, value) => {
         hydrateSchema(schema)
 
+        schema.applyGlobalValidations(schema, value)
+
         if (!_.isNumber(value)) {
             schema.onValidationFailed(schema, value, 'not_a_number')
             return undefined

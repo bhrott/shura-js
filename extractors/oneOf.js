@@ -6,6 +6,8 @@ module.exports = {
     extract: (schema, value) => {
         hydrateSchema(schema)
 
+        schema.applyGlobalValidations(schema, value)
+
         for (let i = 0; i < schema.items.length; i++) {
             let item = schema.items[i]
 

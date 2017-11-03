@@ -113,3 +113,24 @@ test('array with invalid inner type raises error', () => {
         expect(error.message).toBe('inner_type_validation_failed')
     }
 })
+
+test('required value raises error', () => {
+    const schema = {
+        name: {
+            '*': 'string',
+            required: true,
+            onValidationFailed: (schema, value, errorCode) => {
+                throw new Error(errorCode)
+            }
+        }
+    }
+
+    const model = { name: null }
+
+    try {
+        shurajs.extract(schema, model)
+        throw 'test_failed'
+    } catch (error) {
+        expect(error.message).toBe('required')
+    }
+})
