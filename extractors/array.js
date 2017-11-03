@@ -6,8 +6,6 @@ module.exports = {
     extract: (schema, value) => {
         hydrateSchema(schema)
 
-        schema.applyGlobalValidations(schema, value)
-
         let result = []
         const defaultValue = schema.resolveInvalidAs
 
