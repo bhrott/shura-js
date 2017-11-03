@@ -1,34 +1,52 @@
-const { number } = require('../../extractors')
+const shurajs = require('../../index')
 
 test('123 with "allowPositive=false" returns false', () => {
-    const value = 123
-    const template = {
-        allowPositive: false
+    const schema = {
+        number: {
+            '*': 'number',
+            allowPositive: false
+        }
     }
 
-    const result = number.extract(template, value)
+    const model = {
+        number: 123
+    }
 
-    expect(result).toBeUndefined()
+    const received = shurajs.extract(schema, model)
+
+    expect(received.number).toBeUndefined()
 })
 
 test('-123 with "allowNegative=false" returns false', () => {
-    const value = -123
-    const template = {
-        allowNegative: false
+    const schema = {
+        number: {
+            '*': 'number',
+            allowNegative: false
+        }
     }
 
-    const result = number.extract(template, value)
+    const model = {
+        number: -123
+    }
 
-    expect(result).toBeUndefined()
+    const received = shurajs.extract(schema, model)
+
+    expect(received.number).toBeUndefined()
 })
 
 test('0 with "allowPositive=false" returns false', () => {
-    const value = 0
-    const template = {
-        allowPositive: false
+    const schema = {
+        number: {
+            '*': 'number',
+            allowPositive: false
+        }
     }
 
-    const result = number.extract(template, value)
+    const model = {
+        number: 0
+    }
 
-    expect(result).toBeUndefined()
+    const received = shurajs.extract(schema, model)
+
+    expect(received.number).toBeUndefined()
 })

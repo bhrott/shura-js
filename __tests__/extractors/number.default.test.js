@@ -1,19 +1,31 @@
-const { number } = require('../../extractors')
+const shurajs = require('../../index')
 
 test('123 returns true', () => {
-    const value = 123
-    const template = {}
+    const expected = 123
 
-    const result = number.extract(template, value)
+    const schema = {
+        number: { '*': 'number' }
+    }
 
-    expect(result).toBe(123)
+    const model = {
+        number: 123
+    }
+
+    const received = shurajs.extract(schema, model)
+
+    expect(received.number).toBe(expected)
 })
 
 test('"123" returns false', () => {
-    const value = '123'
-    const template = {}
+    const schema = {
+        number: { '*': 'number' }
+    }
 
-    const result = number.extract(template, value)
+    const model = {
+        number: '123'
+    }
 
-    expect(result).toBeUndefined()
+    const received = shurajs.extract(schema, model)
+
+    expect(received.number).toBeUndefined()
 })
