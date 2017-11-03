@@ -1,34 +1,36 @@
 const _ = require('lodash')
+const { hydrateSchema } = require('./utils')
 
 module.exports = {
     '*': 'string',
-    extract: (template, value) => {
+    extract: (schema, value) => {
+        hydrateSchema(schema)
+
         if (!_.isString(value)) {
+            schema.onValidationFailed(schema, value, 'not_a_string')
             return undefined
         }
 
-        if (
-            _.isNumber(template.minLength) &&
-            value.length < template.minLength
-        ) {
+        if (_.isNumber(schema.minLength) && value.length < schema.minLength) {
+            schema.onValidationFailed(schema, value, 'min_length')
             return undefined
         }
 
-        if (
-            _.isNumber(template.maxLength) &&
-            value.length > template.maxLength
-        ) {
+        if (_.isNumber(schema.maxLength) && value.length > schema.maxLength) {
+            schema.onValidationFailed(schema, value, 'max_length')
             return undefined
         }
 
-        if (_.isRegExp(template.regex) && !template.regex.test(value)) {
+        if (_.isRegExp(schema.regex) && !schema.regex.test(value)) {
+            schema.onValidationFailed(schema, value, 'regex')
             return undefined
         }
 
-        if (_.isBoolean(template.allowEmpty) && !template.allowEmpty) {
+        if (_.isBoolean(schema.allowEmpty) && !schema.allowEmpty) {
             const flushedValue = value.replace(/\s/g, '')
 
             if (flushedValue.length == 0) {
+                schema.onValidationFailed(schema, value, 'is_empty')
                 return undefined
             }
         }

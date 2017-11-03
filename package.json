@@ -10,7 +10,12 @@
         "type": "git",
         "url": "git+https://github.com/benhurott/shura-js.git"
     },
-    "keywords": ["schema", "json", "extractor", "validator"],
+    "keywords": [
+        "schema",
+        "json",
+        "extractor",
+        "validator"
+    ],
     "author": "Ben-hur Santos Ott",
     "license": "MIT",
     "bugs": {

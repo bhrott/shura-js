@@ -1,36 +1,32 @@
 const _ = require('lodash')
-const { getExtractorByType } = require('./utils')
+const { getExtractorByType, hydrateSchema } = require('./utils')
 
 module.exports = {
     '*': 'array',
-    extract: (template, value) => {
+    extract: (schema, value) => {
+        hydrateSchema(schema)
+
         let result = []
-        const defaultValue = template.resolveInvalidAs
+        const defaultValue = schema.resolveInvalidAs
 
         if (!_.isArray(value)) {
             return defaultValue
         }
 
-        if (
-            _.isNumber(template.minLength) &&
-            value.length < template.minLength
-        ) {
+        if (_.isNumber(schema.minLength) && value.length < schema.minLength) {
             return defaultValue
         }
 
-        if (
-            _.isNumber(template.maxLength) &&
-            value.length > template.maxLength
-        ) {
+        if (_.isNumber(schema.maxLength) && value.length > schema.maxLength) {
             return defaultValue
         }
 
-        if (_.isArray(template.innerTypes) && template.innerTypes.length > 0) {
+        if (_.isArray(schema.innerTypes) && schema.innerTypes.length > 0) {
             for (let i = 0; i < value.length; i++) {
                 const itemInResult = value[i]
 
-                for (let j = 0; j < template.innerTypes.length; j++) {
-                    const innerType = template.innerTypes[j]
+                for (let j = 0; j < schema.innerTypes.length; j++) {
+                    const innerType = schema.innerTypes[j]
                     const extractor = getExtractorByType(innerType)
 
                     if (!!extractor) {

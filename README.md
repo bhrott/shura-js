@@ -109,39 +109,6 @@ This is the extractor template shurajs uses to validate, parse and extract using
 
 Now, let's see available apis:
 
-### Global
-All templates include these properties if you want to use:
-
-```js
-{
-    "*": "<any type>",
-    
-    // if set to true and property value is null or undefined
-    // it will raise an error
-    // (optional, boolean, default false)
-    "required": false,
-
-    // by default, shurajs ignore the node if value is undefined.
-    // if you want a default value for invalid node, just set this
-    // property with your custom value
-    // (optional, any type, default undefined)
-    "defaultValue": undefined,
-
-    // after shurajs parses the value and apply all the rules,
-    // it will resolve the value and set it on the result node.
-    // if you want to validate value manualy after shura (in case
-    // you have some complex validation, for example) you can add
-    // a middleware.
-    // the value you returned on middleware will be the result of the
-    // node.
-    // (optional, schema:value func, default return current value)
-    "middleware": (schema, value) => {
-        //...
-        return value
-    }
-}
-```
-
 ### String
 Validate if value is a string
 ```js
@@ -305,6 +272,46 @@ Validate if value is one of listed values (using `===` for comparison)
     "items": [10, "test", null]
 }
 ```
+
+### Global
+All templates include these properties if you want to use:
+
+```js
+{
+    "*": "<any type>",
+    
+    // if set to true and property value is null or undefined
+    // it will force `onValidationFailed` to be trigged
+    // (optional, boolean, default false)
+    "required": false,
+
+    // by default, shurajs ignore the node if value is undefined.
+    // if you want a default value for invalid node, just set this
+    // property with your custom value
+    // (optional, any type, default undefined)
+    "defaultValue": undefined,
+
+    // when some schema validation failed, this method will be called.
+    // use it for custom error behavior (like raise an exception for example.)
+    "onValidationFailed": (schema, originalValue, errorCode) => {
+        //...
+    }
+
+    // after shurajs parses the value and apply all the rules,
+    // it will resolve the value and set it on the result node.
+    // if you want to validate value manualy after shura (in case
+    // you have some complex validation, for example) you can add
+    // a middleware.
+    // the value you returned on middleware will be the result of the
+    // node.
+    // (optional, schema:value func, default return current value)
+    "middleware": (schema, value) => {
+        //...
+        return value
+    }
+}
+```
+
 
 ## Extending ShuraJS
 If you want to create your custom extractors, just use the `mixin` function.

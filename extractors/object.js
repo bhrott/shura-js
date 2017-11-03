@@ -2,7 +2,8 @@ const _ = require('lodash')
 const {
     getExtractorByType,
     extractorIdentifierKey,
-    validateRequiredProperty
+    validateRequiredProperty,
+    hydrateSchema
 } = require('./utils')
 
 const extractorKey = 'object'
@@ -15,24 +16,24 @@ const applyMiddleware = (schema, value) => {
     return value
 }
 
-const extract = (template, value) => {
+const extract = (schema, value) => {
     const idKey = extractorIdentifierKey.get()
-    let matchedTemplate = template
+    let matchedSchema = schema
 
-    if (template[idKey] === extractorKey) {
-        matchedTemplate = template.definition
+    if (schema[idKey] === extractorKey) {
+        matchedSchema = schema.definition
     }
 
-    const templateKeys = Object.keys(matchedTemplate)
+    const schemaKeys = Object.keys(matchedSchema)
 
     const result = {}
 
-    for (let i = 0; i < templateKeys.length; i++) {
-        const key = templateKeys[i]
+    for (let i = 0; i < schemaKeys.length; i++) {
+        const key = schemaKeys[i]
 
         const valueProp = value[key]
-        const valueTemplate = matchedTemplate[key]
-        validateRequiredProperty(valueTemplate, valueProp, key)
+        let valueSchema = matchedSchema[key]
+        validateRequiredProperty(valueSchema, valueProp, key)
 
         if (valueProp === undefined) {
             continue
@@ -43,23 +44,25 @@ const extract = (template, value) => {
             continue
         }
 
-        const extractor = getExtractorByType(matchedTemplate[key])
+        const extractor = getExtractorByType(matchedSchema[key])
 
         if (!!extractor) {
             let sanitized = undefined
 
+            hydrateSchema(valueSchema)
+
             if (extractor[idKey] === extractorKey) {
-                sanitized = extract(valueTemplate.definition, valueProp)
+                sanitized = extract(valueSchema.definition, valueProp)
             } else {
-                sanitized = extractor.extract(valueTemplate, valueProp)
+                sanitized = extractor.extract(valueSchema, valueProp)
             }
 
-            sanitized = applyMiddleware(valueTemplate, sanitized)
+            sanitized = applyMiddleware(valueSchema, sanitized)
 
             if (sanitized !== undefined) {
                 result[key] = sanitized
-            } else if (valueTemplate.defaultValue !== undefined) {
-                result[key] = valueTemplate.defaultValue
+            } else if (valueSchema.defaultValue !== undefined) {
+                result[key] = valueSchema.defaultValue
             }
         }
     }
@@ -69,9 +72,9 @@ const extract = (template, value) => {
 
 module.exports = {
     '*': extractorKey,
-    extract: (template, value) => {
-        let sanitized = extract(template, value)
-        sanitized = applyMiddleware(template, sanitized)
+    extract: (schema, value) => {
+        let sanitized = extract(schema, value)
+        sanitized = applyMiddleware(schema, sanitized)
 
         return sanitized
     }

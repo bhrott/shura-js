@@ -1,6 +1,10 @@
+const { hydrateSchema } = require('./utils')
+
 module.exports = {
     '*': 'boolean',
-    extract: (template, value) => {
+    extract: (schema, value) => {
+        hydrateSchema(schema)
+
         if (value === true || value === false) {
             return value
         }
