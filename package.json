@@ -1,6 +1,6 @@
 {
     "name": "shurajs",
-    "version": "0.10.0",
+    "version": "0.11.0",
     "description": "A simple and extensible json schema extractor for NodeJS",
     "main": "index.js",
     "scripts": {
@@ -10,12 +10,7 @@
         "type": "git",
         "url": "git+https://github.com/benhurott/shura-js.git"
     },
-    "keywords": [
-        "schema",
-        "json",
-        "extractor",
-        "validator"
-    ],
+    "keywords": ["schema", "json", "extractor", "validator"],
     "author": "Ben-hur Santos Ott",
     "license": "MIT",
     "bugs": {

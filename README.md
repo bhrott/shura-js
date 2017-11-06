@@ -403,6 +403,12 @@ Icon: <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepi
 
 ## Changelog
 
+## 0.11.0
+* Adding `onValidationFailed` to schemas.
+
+**Breaking Change**<br />
+`required` now trigger `onValidationFailed` instead raising error.
+
 ## 0.10.0
 * Adding `middleware`.
 
