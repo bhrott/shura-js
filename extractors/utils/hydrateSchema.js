@@ -5,6 +5,12 @@ module.exports = schema => {
         schema.onValidationFailed = (schema, originalValue, errorCode) => {}
     }
 
+    if (!_.isFunction(schema.afterValidation)) {
+        schema.afterValidation = (schema, currentValue) => {
+            return currentValue
+        }
+    }
+
     if (_.isNil(schema.required)) {
         schema.required = false
     }

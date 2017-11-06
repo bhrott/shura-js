@@ -1,10 +1,11 @@
 {
     "name": "shurajs",
-    "version": "0.11.0",
+    "version": "0.12.0",
     "description": "A simple and extensible json schema extractor for NodeJS",
     "main": "index.js",
     "scripts": {
-        "test": "jest"
+        "test": "jest",
+        "prepublish": "npm test"
     },
     "repository": {
         "type": "git",
