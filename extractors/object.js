@@ -7,14 +7,6 @@ const {
 
 const extractorKey = 'object'
 
-const applyMiddleware = (schema, value) => {
-    if (_.isFunction(schema.middleware)) {
-        return schema.middleware(schema, value)
-    }
-
-    return value
-}
-
 const extract = (schema, value) => {
     const idKey = extractorIdentifierKey.get()
     let matchedSchema = schema
@@ -37,11 +29,20 @@ const extract = (schema, value) => {
         valueSchema.applyGlobalValidations(valueSchema, valueProp)
 
         if (valueProp === undefined) {
+            const resolvedUndefValue = valueSchema.afterValidation(
+                valueSchema,
+                valueProp
+            )
+
+            if (resolvedUndefValue !== undefined) {
+                result[key] = resolvedUndefValue
+            }
+
             continue
         }
 
         if (valueProp === null) {
-            result[key] = null
+            result[key] = valueSchema.afterValidation(valueSchema, valueProp)
             continue
         }
 
@@ -56,7 +57,7 @@ const extract = (schema, value) => {
                 sanitized = extractor.extract(valueSchema, valueProp)
             }
 
-            sanitized = applyMiddleware(valueSchema, sanitized)
+            sanitized = valueSchema.afterValidation(valueSchema, sanitized)
 
             if (sanitized !== undefined) {
                 result[key] = sanitized
@@ -73,8 +74,6 @@ module.exports = {
     '*': extractorKey,
     extract: (schema, value) => {
         let sanitized = extract(schema, value)
-        sanitized = applyMiddleware(schema, sanitized)
-
         return sanitized
     }
 }
