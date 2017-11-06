@@ -403,19 +403,19 @@ Icon: <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepi
 
 ## Changelog
 
-## 0.12.0
+### 0.12.0
 * Refactoring `middleware` to `afterValidation`
 
 **Breaking Change**<br />
 `middleware` no longer works, use `afterValidation` instead.
 
-## 0.11.0
+### 0.11.0
 * Adding `onValidationFailed` to schemas.
 
 **Breaking Change**<br />
 `required` now trigger `onValidationFailed` instead raising error.
 
-## 0.10.0
+### 0.10.0
 * Adding `middleware`.
 
 ### 0.9.0
