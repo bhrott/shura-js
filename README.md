@@ -342,9 +342,9 @@ All templates include these properties if you want to use:
     // the value you returned on `afterValidation` will be the result
     // of the node.
     // (optional, schema:value func, default return current value)
-    "afterValidation": (schema, currentValue, validationResult) => {
+    "afterValidation": (schema, currentValue) => {
         //...
-        return value
+        return currentValue
     }
 }
 ```
