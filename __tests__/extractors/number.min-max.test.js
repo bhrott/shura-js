@@ -1,56 +1,90 @@
-const { number } = require('../../extractors')
+const shurajs = require('../../index')
 
 test('123 with "max=100" returns false', () => {
-    const value = 123
-    const template = {
-        max: 100
+    const schema = {
+        number: {
+            '*': 'number',
+            max: 100
+        }
     }
 
-    const result = number.extract(template, value)
+    const model = {
+        number: 123
+    }
 
-    expect(result).toBeUndefined()
+    const received = shurajs.extract(schema, model)
+
+    expect(received.number).toBeUndefined()
 })
 
 test('123 with "min=124" returns false', () => {
-    const value = 123
-    const template = {
-        min: 124
+    const schema = {
+        number: {
+            '*': 'number',
+            min: 124
+        }
     }
 
-    const result = number.extract(template, value)
+    const model = {
+        number: 123
+    }
 
-    expect(result).toBeUndefined()
+    const received = shurajs.extract(schema, model)
+
+    expect(received.number).toBeUndefined()
 })
 
 test('123 with "min=123" returns true', () => {
-    const value = 123
-    const template = {
-        min: 100
+    const expected = 123
+
+    const schema = {
+        number: {
+            '*': 'number',
+            min: 123
+        }
     }
 
-    const result = number.extract(template, value)
+    const model = {
+        number: 123
+    }
 
-    expect(result).toBe(value)
+    const received = shurajs.extract(schema, model)
+
+    expect(received.number).toBe(expected)
 })
 
 test('123 with "max=123" returns true', () => {
-    const value = 123
-    const template = {
-        max: 123
+    const expected = 123
+
+    const schema = {
+        number: {
+            '*': 'number',
+            max: 123
+        }
     }
 
-    const result = number.extract(template, value)
+    const model = {
+        number: 123
+    }
 
-    expect(result).toBe(123)
+    const received = shurajs.extract(schema, model)
+
+    expect(received.number).toBe(expected)
 })
 
 test('-1 with "min=0" returns false', () => {
-    const value = -1
-    const template = {
-        min: 0
+    const schema = {
+        number: {
+            '*': 'number',
+            min: 0
+        }
     }
 
-    const result = number.extract(template, value)
+    const model = {
+        number: -1
+    }
 
-    expect(result).toBeUndefined()
+    const received = shurajs.extract(schema, model)
+
+    expect(received.number).toBeUndefined()
 })

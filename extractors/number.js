@@ -1,25 +1,33 @@
 const _ = require('lodash')
+const { hydrateSchema } = require('./utils')
 
 module.exports = {
     '*': 'number',
-    extract: (template, value) => {
+    extract: (schema, value) => {
+        hydrateSchema(schema)
+
         if (!_.isNumber(value)) {
+            schema.onValidationFailed(schema, value, 'not_a_number')
             return undefined
         }
 
-        if (_.isNumber(template.min) && value < template.min) {
+        if (_.isNumber(schema.min) && value < schema.min) {
+            schema.onValidationFailed(schema, value, 'min')
             return undefined
         }
 
-        if (_.isNumber(template.max) && value > template.max) {
+        if (_.isNumber(schema.max) && value > schema.max) {
+            schema.onValidationFailed(schema, value, 'max')
             return undefined
         }
 
-        if (template.allowNegative === false && value < 0) {
+        if (schema.allowNegative === false && value < 0) {
+            schema.onValidationFailed(schema, value, 'is_negative')
             return undefined
         }
 
-        if (template.allowPositive === false && value >= 0) {
+        if (schema.allowPositive === false && value >= 0) {
+            schema.onValidationFailed(schema, value, 'is_positive')
             return undefined
         }
 

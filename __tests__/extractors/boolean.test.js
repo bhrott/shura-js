@@ -1,28 +1,52 @@
-const { boolean } = require('../../extractors')
+const shurajs = require('../../index')
 
 test('boolean validation with true returns true', () => {
-    const value = true
-    const template = null
+    const expected = true
 
-    const result = boolean.extract(template, value)
+    const schema = {
+        enabled: {
+            '*': 'boolean'
+        }
+    }
 
-    expect(result).toBe(true)
+    const model = {
+        enabled: true
+    }
+
+    const received = shurajs.extract(schema, model)
+
+    expect(received.enabled).toBe(expected)
 })
 
 test('boolean validation with false returns true', () => {
-    const value = false
-    const template = null
+    const expected = false
 
-    const result = boolean.extract(template, value)
+    const schema = {
+        enabled: {
+            '*': 'boolean'
+        }
+    }
 
-    expect(result).toBe(false)
+    const model = {
+        enabled: false
+    }
+
+    const received = shurajs.extract(schema, model)
+
+    expect(received.enabled).toBe(expected)
 })
 
 test('boolean validation with "abc" returns false', () => {
-    const value = 'true'
-    const template = null
+    const schema = {
+        enabled: {
+            '*': 'boolean'
+        }
+    }
 
-    const result = boolean.extract(template, value)
+    const model = {
+        enabled: 'abc'
+    }
 
-    expect(result).toBeUndefined()
+    const received = shurajs.extract(schema, model)
+    expect(received.enabled).toBeUndefined()
 })

@@ -1,34 +1,54 @@
-const { oneOf } = require('../../extractors')
+const shurajs = require('../../index')
 
 test('item in list returns true', () => {
-    const value = 'abc'
-    const template = {
-        items: ['xyz', 'abc']
+    const expected = 'sword'
+
+    const schema = {
+        weapon: {
+            '*': 'oneOf',
+            items: ['sword', 'axe']
+        }
     }
 
-    const result = oneOf.extract(template, value)
+    const model = {
+        weapon: 'sword'
+    }
 
-    expect(result).toBe(value)
+    const received = shurajs.extract(schema, model)
+
+    expect(received.weapon).toBe(expected)
 })
 
 test('item not in list returns false', () => {
-    const value = 'abc'
-    const template = {
-        items: ['xyz', 'abcd']
+    const schema = {
+        weapon: {
+            '*': 'oneOf',
+            items: ['sword', 'axe']
+        }
     }
 
-    const result = oneOf.extract(template, value)
+    const model = {
+        weapon: 'bow'
+    }
 
-    expect(result).toBeUndefined()
+    const received = shurajs.extract(schema, model)
+
+    expect(received.weapon).toBeUndefined()
 })
 
 test('123 with "123" in list returns false', () => {
-    const value = 123
-    const template = {
-        items: ['123', 1234]
+    const schema = {
+        number: {
+            '*': 'oneOf',
+            items: ['123', 1234]
+        }
     }
 
-    const result = oneOf.extract(template, value)
+    const model = {
+        number: 123
+    }
 
-    expect(result).toBeUndefined()
+    const received = shurajs.extract(schema, model)
+
+    expect(received.weapon).toBeUndefined()
 })

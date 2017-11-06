@@ -1,6 +1,6 @@
 const _ = require('lodash')
 
-const { object } = require('../../extractors')
+const shurajs = require('../../index')
 
 test('single property parse success', () => {
     const expected = {
@@ -20,7 +20,7 @@ test('single property parse success', () => {
         }
     }
 
-    const received = object.extract(template, value)
+    const received = shurajs.extract(template, value)
 
     expect(JSON.stringify(expected)).toBe(JSON.stringify(received))
 })
@@ -44,7 +44,7 @@ test('invalid property not bind', () => {
         }
     }
 
-    const received = object.extract(template, value)
+    const received = shurajs.extract(template, value)
 
     expect(JSON.stringify(expected)).toBe(JSON.stringify(received))
 })
@@ -86,7 +86,7 @@ test('nested object success', () => {
         }
     }
 
-    const received = object.extract(template, value)
+    const received = shurajs.extract(template, value)
 
     expect(JSON.stringify(expected)).toBe(JSON.stringify(received))
 })
@@ -120,7 +120,7 @@ test('schema larger than object success', () => {
         }
     }
 
-    const received = object.extract(template, value)
+    const received = shurajs.extract(template, value)
 
     expect(JSON.stringify(expected)).toBe(JSON.stringify(received))
 })
@@ -143,7 +143,7 @@ test('null property is not removed', () => {
         }
     }
 
-    const received = object.extract(template, value)
+    const received = shurajs.extract(template, value)
 
     expect(JSON.stringify(expected)).toBe(JSON.stringify(received))
 })
@@ -164,7 +164,7 @@ test('undefined property is removed', () => {
         }
     }
 
-    const received = object.extract(template, value)
+    const received = shurajs.extract(template, value)
 
     expect(JSON.stringify(expected)).toBe(JSON.stringify(received))
 })

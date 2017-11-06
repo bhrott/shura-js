@@ -106,41 +106,9 @@ This is the extractor template shurajs uses to validate, parse and extract using
     * `false`: don't include this node on result.
     * `true`: include in result
 
-
 Now, let's see available apis:
 
-### Global
-All templates include these properties if you want to use:
-
-```js
-{
-    "*": "<any type>",
-    
-    // if set to true and property value is null or undefined
-    // it will raise an error
-    // (optional, boolean, default false)
-    "required": false,
-
-    // by default, shurajs ignore the node if value is undefined.
-    // if you want a default value for invalid node, just set this
-    // property with your custom value
-    // (optional, any type, default undefined)
-    "defaultValue": undefined,
-
-    // after shurajs parses the value and apply all the rules,
-    // it will resolve the value and set it on the result node.
-    // if you want to validate value manualy after shura (in case
-    // you have some complex validation, for example) you can add
-    // a middleware.
-    // the value you returned on middleware will be the result of the
-    // node.
-    // (optional, schema:value func, default return current value)
-    "middleware": (schema, value) => {
-        //...
-        return value
-    }
-}
-```
+*Notes*: `Error Codes` is used in `onValidationFailed` on `Global` section.
 
 ### String
 Validate if value is a string
@@ -164,6 +132,15 @@ Validate if value is a string
     // (optional, boolean, default true)
     "allowEmpty": true
 }
+```
+
+Error Codes:
+```
+not_a_string -> the value is not a string
+min_length -> the value has less characters than expected
+max_length -> the value has more characters than expected
+regex -> the regex not matched
+is_empty -> raises when allowEmpty=true validation failed
 ```
 
 ### Number
@@ -190,12 +167,26 @@ Validate if value is a number
 }
 ```
 
+Error Codes:
+```
+not_a_number -> the value is not a number
+min -> the value is minor then the expected
+max -> the value is major then the expected
+is_negative -> the value is negative for allowNegative=false
+is_positive -> the value is positive for allowPositive=false
+```
+
 ### Boolean
 Validate if value is a boolean
 ```js
 {
     "*": "boolean"
 }
+```
+
+Error Codes:
+```
+not_a_boolean -> the value is not a boolean
 ```
 
 ### Object
@@ -295,6 +286,14 @@ Validate if value is an array. If you want, you can check types of elements insi
 }
 ```
 
+Error Codes:
+```
+not_a_array -> value is not an array
+min_length -> array has less items then expected
+max_length -> array has more items then expected
+inner_type_validation_failed -> some value not match with inner type
+```
+
 ### oneOf
 Validate if value is one of listed values (using `===` for comparison)
 ```js
@@ -305,6 +304,51 @@ Validate if value is one of listed values (using `===` for comparison)
     "items": [10, "test", null]
 }
 ```
+
+Error Codes:
+```
+invalid_item -> the value is not in the items range.
+```
+
+### Global
+All templates include these properties if you want to use:
+
+```js
+{
+    "*": "<any type>",
+    
+    // if set to true and property value is null or undefined
+    // it will force `onValidationFailed` to be trigged
+    // (optional, boolean, default false)
+    "required": false,
+
+    // by default, shurajs ignore the node if value is undefined.
+    // if you want a default value for invalid node, just set this
+    // property with your custom value
+    // (optional, any type, default undefined)
+    "defaultValue": undefined,
+
+    // when some schema validation failed, this method will be called.
+    // use it for custom error behavior (like raise an exception for example.)
+    "onValidationFailed": (schema, originalValue, errorCode) => {
+        //...
+    }
+
+    // after shurajs parses the value and apply all the rules,
+    // it will resolve the value and set it on the result node.
+    // if you want to validate value manualy after shura (in case
+    // you have some complex validation, for example) you can add
+    // a middleware.
+    // the value you returned on middleware will be the result of the
+    // node.
+    // (optional, schema:value func, default return current value)
+    "middleware": (schema, value) => {
+        //...
+        return value
+    }
+}
+```
+
 
 ## Extending ShuraJS
 If you want to create your custom extractors, just use the `mixin` function.
@@ -358,6 +402,12 @@ Icon: <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepi
 
 
 ## Changelog
+
+## 0.11.0
+* Adding `onValidationFailed` to schemas.
+
+**Breaking Change**<br />
+`required` now trigger `onValidationFailed` instead raising error.
 
 ## 0.10.0
 * Adding `middleware`.

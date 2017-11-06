@@ -1,4 +1,4 @@
-const { array } = require('../../extractors')
+const shurajs = require('../../index')
 
 test('invalid min length results undefined', () => {
     const expected = undefined
@@ -10,7 +10,7 @@ test('invalid min length results undefined', () => {
 
     const value = ['Link', 'Zelda']
 
-    const received = array.extract(template, value)
+    const received = shurajs.extract(template, value)
 
     expect(received).toBe(expected)
 })
@@ -25,7 +25,7 @@ test('invalid max length results undefined', () => {
 
     const value = ['Link', 'Zelda']
 
-    const received = array.extract(template, value)
+    const received = shurajs.extract(template, value)
 
     expect(received).toBe(expected)
 })
@@ -39,7 +39,7 @@ test('simple array returns success', () => {
 
     const value = ['Link', 'Zelda']
 
-    const received = array.extract(template, value)
+    const received = shurajs.extract(template, value)
 
     expect(JSON.stringify(received)).toBe(JSON.stringify(expected))
 })
@@ -54,7 +54,7 @@ test('array with only string type success', () => {
 
     const value = ['Link', 'Zelda']
 
-    const received = array.extract(template, value)
+    const received = shurajs.extract(template, value)
 
     expect(JSON.stringify(received)).toBe(JSON.stringify(expected))
 })
@@ -69,7 +69,7 @@ test('array with many types but accept only string type return only valid items'
 
     const value = ['Link', 'Zelda', 123]
 
-    const received = array.extract(template, value)
+    const received = shurajs.extract(template, value)
 
     expect(JSON.stringify(received)).toBe(JSON.stringify(expected))
 })
@@ -84,7 +84,7 @@ test('multiple innerTypes success', () => {
 
     const value = ['Samus', 123, { name: 'Bowser' }, true]
 
-    const received = array.extract(template, value)
+    const received = shurajs.extract(template, value)
 
     expect(JSON.stringify(received)).toBe(JSON.stringify(expected))
 })
@@ -100,7 +100,7 @@ test('custom resolved success', () => {
 
     const value = ['you', 'shall', 'not', 'pass']
 
-    const received = array.extract(template, value)
+    const received = shurajs.extract(template, value)
 
     expect(JSON.stringify(received)).toBe(JSON.stringify(expected))
 })

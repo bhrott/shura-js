@@ -9,9 +9,7 @@ test('middleware replace blank spaces with "_"', () => {
         {
             name: {
                 '*': 'string',
-
                 middleware: (schema, value) => {
-                    console.log(value)
                     return value.replace(new RegExp(' ', 'g'), '_')
                 }
             }
