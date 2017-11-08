@@ -1,9 +1,9 @@
 const extractorIdentifier = require('./extractorIdentifierKey')
 const customExtractors = require('./customExtractors')
 
-module.exports = template => {
+module.exports = schema => {
     const identifier = extractorIdentifier.get()
-    const key = (template || {})[identifier]
+    const key = (schema || {})[identifier]
 
     const foundInDefaults = require('../index')[key]
 

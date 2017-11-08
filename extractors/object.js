@@ -7,63 +7,77 @@ const {
 
 const extractorKey = 'object'
 
-const extract = (schema, value) => {
+const isObjSchema = schema => {
     const idKey = extractorIdentifierKey.get()
-    let matchedSchema = schema
+    return schema[idKey] === extractorKey
+}
 
-    if (schema[idKey] === extractorKey) {
-        matchedSchema = schema.definition
+const resolveAfterValidation = (schema, value) => {
+    let sanitized = schema.afterValidation(schema, value)
+
+    if (sanitized === undefined) {
+        return schema.defaultValue
     }
 
-    const schemaKeys = Object.keys(matchedSchema)
+    return sanitized
+}
 
-    const result = {}
+const extract = (schema, value) => {
+    let resolvedSchema = schema
 
-    for (let i = 0; i < schemaKeys.length; i++) {
-        const key = schemaKeys[i]
+    if (isObjSchema(schema)) {
+        hydrateSchema(schema)
 
-        const valueProp = value[key]
-        let valueSchema = matchedSchema[key]
-
-        hydrateSchema(valueSchema)
-        valueSchema.applyGlobalValidations(valueSchema, valueProp)
-
-        if (valueProp === undefined) {
-            const resolvedUndefValue = valueSchema.afterValidation(
-                valueSchema,
-                valueProp
-            )
-
-            if (resolvedUndefValue !== undefined) {
-                result[key] = resolvedUndefValue
-            }
-
-            continue
+        if (!_.isObject(schema.definition)) {
+            throw new Error('definition_is_not_set_to_object_schema')
         }
 
-        if (valueProp === null) {
-            result[key] = valueSchema.afterValidation(valueSchema, valueProp)
-            continue
+        schema.applyGlobalValidations(schema, value)
+
+        if (_.isNil(value)) {
+            return resolveAfterValidation(schema, value)
+        } else if (!_.isObject(value)) {
+            schema.onValidationFailed(schema, value, 'not_a_object')
+            return resolveAfterValidation(schema, undefined)
         }
 
-        const extractor = getExtractorByType(matchedSchema[key])
+        resolvedSchema = schema.definition
+    }
 
-        if (!!extractor) {
-            let sanitized = undefined
+    let result = {}
+    let sanitized = undefined
 
-            if (extractor[idKey] === extractorKey) {
-                sanitized = extract(valueSchema.definition, valueProp)
-            } else {
-                sanitized = extractor.extract(valueSchema, valueProp)
-            }
+    let schemaKeyList = Object.keys(resolvedSchema)
 
-            sanitized = valueSchema.afterValidation(valueSchema, sanitized)
+    for (let i = 0; i < schemaKeyList.length; i++) {
+        let schemaKey = schemaKeyList[i]
+
+        let schemaForProp = resolvedSchema[schemaKey]
+        let valueForProp = value[schemaKey]
+
+        hydrateSchema(schemaForProp)
+
+        if (isObjSchema(schemaForProp)) {
+            sanitized = extract(schemaForProp, valueForProp)
+            sanitized = resolveAfterValidation(schemaForProp, sanitized)
 
             if (sanitized !== undefined) {
-                result[key] = sanitized
-            } else if (valueSchema.defaultValue !== undefined) {
-                result[key] = valueSchema.defaultValue
+                result[schemaKey] = sanitized
             }
+            continue
+        }
+
+        const extractor = getExtractorByType(schemaForProp)
+        schemaForProp.applyGlobalValidations(schemaForProp, valueForProp)
+
+        sanitized =
+            valueForProp === null
+                ? null
+                : extractor.extract(schemaForProp, valueForProp)
+        sanitized = resolveAfterValidation(schemaForProp, sanitized)
+
+        if (sanitized !== undefined) {
+            result[schemaKey] = sanitized
         }
     }
 
