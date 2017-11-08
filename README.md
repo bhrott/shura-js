@@ -245,6 +245,11 @@ const schema = {
 const sanitized = shurajs.extract(model, schema)
 ```
 
+Error Codes:
+```
+not_a_object -> value is not null, not undefined and not an object
+```
+
 ### Array
 Validate if value is an array. If you want, you can check types of elements inside the array.
 
