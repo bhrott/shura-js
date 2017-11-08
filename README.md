@@ -403,6 +403,9 @@ Icon: <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepi
 
 ## Changelog
 
+### 0.12.1
+* Fixing `defaultValue` on `object` api.
+
 ### 0.12.0
 * Refactoring `middleware` to `afterValidation`
 
