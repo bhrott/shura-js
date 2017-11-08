@@ -126,10 +126,6 @@ test('schema larger than object success', () => {
 })
 
 test('null property is not removed', () => {
-    const expected = {
-        name: null
-    }
-
     const value = {
         name: null
     }
@@ -145,7 +141,7 @@ test('null property is not removed', () => {
 
     const received = shurajs.extract(template, value)
 
-    expect(JSON.stringify(expected)).toBe(JSON.stringify(received))
+    expect(received.name).toBeNull()
 })
 
 test('undefined property is removed', () => {
@@ -167,4 +163,47 @@ test('undefined property is removed', () => {
     const received = shurajs.extract(template, value)
 
     expect(JSON.stringify(expected)).toBe(JSON.stringify(received))
+})
+
+test('invalid element tree parses successfully', () => {
+    const expected = {
+        name: 'Zyon',
+        skills: {
+            combat: {
+                attack: 5,
+                defense: 5
+            }
+        }
+    }
+
+    const schema = {
+        name: { '*': 'string' },
+        skills: {
+            '*': 'object',
+            definition: {
+                combat: {
+                    '*': 'object',
+                    definition: {
+                        attack: { '*': 'number' },
+                        defense: { '*': 'number' }
+                    }
+                }
+            },
+            defaultValue: {
+                combat: {
+                    attack: 5,
+                    defense: 5
+                }
+            }
+        }
+    }
+
+    const value = {
+        name: 'Zyon',
+        skills: false
+    }
+
+    const received = shurajs.extract(schema, value)
+
+    expect(JSON.stringify(received)).toBe(JSON.stringify(expected))
 })
